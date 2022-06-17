@@ -5,19 +5,46 @@ const config1 = require('./config1');
 
 const client1 = new TwitterApi(config1);
 
+let tweetIds = [];
 const tweet = async (data) => {
     const result = await client1.v2.get('tweets/search/recent', { query: 'blue', max_results: 10 });
     console.log("hello from the func!");
     // console.log(result.data.length);
     // console.log(result);
     for (let i = 0; i < result.data.length; i++) {
-        console.log(result.data[i].text);
-        console.log("Next");
+        // console.log(result.data[i].text);
+        // console.log("Next");
+        tweetIds.push(result.data[i].id);
     }
-    console.log(result.data); // TweetV2[]
+
+    console.log("tweet ids are " + tweetIds.length);
+tweetIds.forEach(x => {
+    console.log(x);
+
+    const idResults = client1.v2.tweets(['20', '141']);
+    console.log("tweets by id are " + idResults);
+    // GOT TO PUT THIS IN ANOTHER ASYN FUNC LOOKS LIKE TO GET THE PROMISE 
+});
+    // console.log(result.data); // TweetV2[]
 }
 
 tweet();
+
+
+
+
+// const tweet = async (data) => {
+//     // const result = await client1.v2.tweet("Hello world");
+//     // console.log(result);
+//     try {
+//         await client1.v2.tweet(text: "Hello world");
+//     } catch (e) {
+//         console.error(e);
+//     }
+
+// }
+
+// tweet();
 
 // var Twitter = require('twitter-v2');
 // var config = require('./config');
